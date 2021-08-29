@@ -72,6 +72,11 @@ contract('dBank', ([deployer, user]) => {
       it('depositing should be rejected', async () => {
         await dbank.deposit({value: 10**15, from: user}).should.be.rejectedWith(EVM_REVERT) //to small amount
       })
+      it('depositing should fail if user is already active', async() => {
+        await dbank.deposit({value: 10**16, from: user})
+        await dbank.deposit({value: 10**16, from: user}).should.be.rejectedWith(EVM_REVERT)
+
+      })
     })
   })
 
